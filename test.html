@@ -1,0 +1,74 @@
+<html>
+<head>
+<script src="myTimeParser.js" > </script>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+    <h2> Testing for autocomplete </h2>
+    <div id='ipContainer'>
+      <input id='userInput'> </input>
+    </div>
+    <div id='opContainer'>
+        <form>
+            <fieldset>
+                <div class="hidden" id="title"> <span class="title"> Title </span> <span class="content"> </span> </div>
+                <div class="hidden" id="venue"> <span class="title"> Venue </span> <span class="content"> </span> </div>
+                <div class="hidden" id="startDate"> <span class="title"> Start Date </span> <span class="content"> </span> </div>
+                <div class="hidden" id="startTime"> <span class="title"> Start Time </span> <span class="content"> </span> </div>
+                <div class="hidden" id="endDate"> <span class="title"> End Date </span> <span class="content"> </span> </div>
+                <div class="hidden" id="endTime"> <span class="title"> End Time </span> <span class="content"> </span> </div>
+            </fieldset>
+        </form>
+
+    </div>
+</body>
+<script>
+
+var usrInpHandler = document.getElementById("userInput");
+var opHandler = document.getElementById("opContainer");
+
+var displayHandler = function(retObj) {
+    console.log(retObj);
+
+    var consolidatedClassObj ={};
+
+    for (i=0; i<retObj.fieldsPresent.length; i++) {
+        consolidatedClassObj[retObj.fieldsPresent[i]] = "";
+    }
+
+    for (i=0; i<retObj.fieldsAdded.length; i++) {
+        consolidatedClassObj[retObj.fieldsAdded[i]] = "added";
+    }
+
+    for (i=0; i<retObj.fieldsModified.length; i++) {
+        consolidatedClassObj[retObj.fieldsModified[i]] = "highlight";
+    }
+
+    for (i=0; i<retObj.fieldsRemoved.length; i++) {
+        consolidatedClassObj[retObj.fieldsRemoved[i]] = "hidden";
+    }
+
+    // Apply the classes to all of these consolidated classObjs
+    for (i in consolidatedClassObj) {
+        document.querySelector("#opContainer div#" + i).className = consolidatedClassObj[i];
+    }
+
+    // Set the content of all the added and modified fields
+    for (i=0; i<retObj.fieldsPresent.length; i++) {
+        document.querySelector("#opContainer div#" + retObj.fieldsPresent[i] + " span.content").innerText = retObj.objsPresent[retObj.fieldsPresent[i]].fieldString;
+    }
+
+    for (i=0; i<retObj.fieldsModified.length; i++) {
+        document.querySelector("#opContainer div#" + retObj.fieldsPresent[i] + " span.content").innerText = retObj.objsPresent[retObj.fieldsPresent[i]].fieldString;
+    }
+
+    // remove all classes from all the Objs
+}
+
+usrInpHandler.onkeyup = function() {
+    var retObj = document.calParser.parse(usrInpHandler.value);
+    displayHandler(retObj);
+}
+
+</script>
+</html>

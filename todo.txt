@@ -1,0 +1,10 @@
+TODO
+-> dirty bit
+-> resetting
+-> extracting info functions
+-> highlighting, creating and deleting the fields.
+-> extract location
+-> putting delimitters and using them for extraction.
+-> good UI treatment using YUI or jquery
+
+DONE
